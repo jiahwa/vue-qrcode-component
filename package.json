@@ -1,6 +1,6 @@
 {
   "name": "vue-qrcode-component",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "description": "Create QR codes with a simple Vue component",
   "main": "src/QRCode.vue",
   "keywords": [
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "vue": "^2.0.1",
+    "vue": "^3.0.4",
     "@keeex/qrcodejs-kx": "^1.0.2"
   },
   "browserify": {

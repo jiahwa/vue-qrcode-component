@@ -4,6 +4,7 @@
 </template>
 
 <script>
+    import {ref, watch, onMounted, getCurrentInstance} from 'vue'
     import QRCode from '@keeex/qrcodejs-kx'
     export default {
 
@@ -14,44 +15,40 @@
             bgColor: {type: String, required: false, default: '#FFF'},
             errorLevel: {
                 type: String, 
-                validator: function (value) {
-                    return value === 'L' || value === 'M' || value === 'Q' || value === 'H'
-                }, 
+                // c: value => value === 'L' || value === 'M' || value === 'Q' || value === 'H'
                 required: false, 
                 default: 'H'
             }
         },
 
-        watch: {
-            text: function () {
-                this.clear();
-                this.makeCode(this.text);
-            }
-        },
+        setup(props) {
+            const qrCode = ref({})
+            const that = getCurrentInstance()
 
-        data() {
+            onMounted(() => {
+                qrCode.value = new QRCode(that.el, {
+                    text: props.text,
+                    width: props.size,
+                    height: props.size,
+                    colorDark : props.color,
+                    colorLight : props.bgColor,
+                    correctLevel : QRCode.CorrectLevel[props.errorLevel]
+                });
+            })
+            
+            const clear = () => qrCode.value.clear()
+            const makeCode = text => qrCode.value.makeCode(text);
+
+            watch(() => props.text,
+            val => {
+                clear();
+                makeCode(val);
+            })
+
             return{
-                qrCode: {}
-            }
-        },
-
-        mounted() {
-            this.qrCode = new QRCode(this.$el, {
-                text: this.text,
-                width: this.size,
-                height: this.size,
-                colorDark : this.color,
-                colorLight : this.bgColor,
-                correctLevel : QRCode.CorrectLevel[this.errorLevel]
-            });
-        },
-
-        methods: {
-            clear: function () {
-                this.qrCode.clear();
-            },
-            makeCode: function (text) {
-                this.qrCode.makeCode(text);
+                qrCode,
+                clear,
+                makeCode
             }
         }
     }
