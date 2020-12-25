@@ -1,21 +1,22 @@
 {
-  "name": "vue-qrcode-component",
+  "name": "vue-qrcode-component-next",
   "version": "2.2.1",
-  "description": "Create QR codes with a simple Vue component",
+  "description": "Create QR codes with a simple Vue 3 component",
   "main": "src/QRCode.vue",
   "keywords": [
     "qr",
     "code",
     "qrcode",
     "vue",
+    "vue3",
     "component"
   ],
-  "author": "Gerard Reches <gerardreches@gmail.com> (https://www.gerardreches.com)",
-  "url": "https://github.com/gerardreches/vue-qrcode-component/issues",
-  "email": "gerardreches@gmail.com",
+  "author": "jiahwa <yujiahua163@gmal.com>",
+  "url": "https://github.com/jiahwa/vue-qrcode-component-next/issues",
+  "email": "yujahua@163.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gerardreches/vue-qrcode-component.git"
+    "url": "https://github.com/jiahwa/vue-qrcode-component-next.git"
   },
   "license": "MIT",
   "dependencies": {

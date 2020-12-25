@@ -1,10 +1,10 @@
 
 <template>
-    <div></div>
+    <div ref="qrRoot"></div>
 </template>
 
 <script>
-    import {ref, watch, onMounted, getCurrentInstance} from 'vue'
+    import {ref, watch, onMounted} from 'vue'
     import QRCode from '@keeex/qrcodejs-kx'
     export default {
 
@@ -14,8 +14,10 @@
             color: {type: String, required: false, default: '#000'},
             bgColor: {type: String, required: false, default: '#FFF'},
             errorLevel: {
-                type: String, 
-                // c: value => value === 'L' || value === 'M' || value === 'Q' || value === 'H'
+                type: String,
+                validator(value) {
+                    return value === 'L' || value === 'M' || value === 'Q' || value === 'H'
+                },
                 required: false, 
                 default: 'H'
             }
@@ -23,19 +25,7 @@
 
         setup(props) {
             const qrCode = ref({})
-            const that = getCurrentInstance()
-
-            onMounted(() => {
-                qrCode.value = new QRCode(that.el, {
-                    text: props.text,
-                    width: props.size,
-                    height: props.size,
-                    colorDark : props.color,
-                    colorLight : props.bgColor,
-                    correctLevel : QRCode.CorrectLevel[props.errorLevel]
-                });
-            })
-            
+            const qrRoot = ref(null)
             const clear = () => qrCode.value.clear()
             const makeCode = text => qrCode.value.makeCode(text);
 
@@ -45,8 +35,20 @@
                 makeCode(val);
             })
 
+            onMounted(() => {
+                qrCode.value = new QRCode(qrRoot.value, {
+                    text: props.text,
+                    width: props.size,
+                    height: props.size,
+                    colorDark : props.color,
+                    colorLight : props.bgColor,
+                    correctLevel : QRCode.CorrectLevel[props.errorLevel]
+                });
+            })
+
             return{
                 qrCode,
+                qrRoot,
                 clear,
                 makeCode
             }
